@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="button.css">
+</head>
+
+<body>
+    <div class="container-form">
+        <div class="card">
+            <div class="content-form">
+                <div class="logo">
+                    <label> NOS </label>
+                </div>
+                <h2>Iniciar sesión</h2>
+                <form class="items-form">
+
+                    <input type="email" class="input-component" color="black2" placeholder="Email address" required
+                        minlength="6" />
+                    <div class="password-container">
+
+                        <input type="password" class="input-component" color="black2" placeholder="Password" required
+                            minlength="6" id="password-input" />
+                        <button class="show-password" id="show-password" type="button">
+                            <img src="./assets/eye1.svg" alt="" class="icon-password show" />
+                            <img src="assets/eye2.svg" class="icon-password hidden" alt="">
+                        </button>
+
+                    </div>
+                    <small class="error-message"></small>
+                    <div class="password-recover">
+                        <div>
+                            <input type="checkbox">
+                            <small>Recordar contraseña</small>
+                        </div>
+                        <small> <a href="register.html">Olvidaste tu contraseña?</a></small>
+                    </div>
+                    <a href="login.html"><input type="submit" value="Iniciar sesión" color="white"></a>
+                </form>
+                <small>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></small>
+                <!-- <a href="register.html"><button color="white">Registrarse</button></a> -->
+            </div>
+        </div>
+</body>
+<script>
+    const showPasswordCheckbox = document.getElementById('show-password');
+    const showIcon = document.querySelector('.show');
+    const hiddenIcon = document.querySelector('.hidden');
+    const passwordInput = document.querySelector('input[type="password"]');
+    let showPassword = false;
+    showPasswordCheckbox.onclick = function () {
+        console.log(showPassword);
+        if (showPassword) {
+            passwordInput.type = 'password';
+            showIcon.style.display = 'none';
+            hiddenIcon.style.display = 'block';
+        } else {
+            passwordInput.type = 'text';
+            showIcon.style.display = 'block';
+            hiddenIcon.style.display = 'none';
+        }
+        showPassword = !showPassword;
+    }
+
+    // 1. Obtener referencias
+    const loginForm = document.querySelector('.items-form');
+    const emailInput = document.querySelector('input[type="email"]');
+    const messageDisplay = document.querySelector('.error-message');
+
+    // 2. Agregar el event listener al evento 'submit'
+    loginForm.addEventListener('submit', (e) => {
+        console.log(emailInput.value, passwordInput.value);
+        // 🚨 PASO CRUCIAL 1: Evitar el envío por defecto y la recarga de la página
+        e.preventDefault();
+
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        // Limpiar mensajes anteriores
+        messageDisplay.textContent = '';
+
+        // 🚨 PASO CRUCIAL 2: Simulación de Autenticación
+        // En una aplicación real, aquí harías una llamada (fetch/axios) a tu API 
+        // con el email y la contraseña. La API validaría las credenciales.
+
+        if (email === "marlon@gmail.com" && password === "password") {
+
+            // --- INICIO DE LÓGICA DE SESIÓN Y TOKEN ---
+
+            // 3. Crear el Token (Simulado) y el Perfil de Sesión
+            const sessionToken = `fake_auth_token_${Date.now()}`;
+
+            const userSession = {
+                isAuthenticated: true,
+                username: email.split('@')[0],
+                email: email,
+                token: sessionToken,
+                loginTime: new Date().toISOString()
+            };
+
+            // 4. Almacenar el Token y la Sesión en localStorage
+            // Usamos localStorage para persistir la sesión.
+            localStorage.setItem('userSessionToken', sessionToken);
+            localStorage.setItem('userProfile', JSON.stringify(userSession));
+
+            // --- FIN DE LÓGICA DE SESIÓN Y TOKEN ---
+
+            // 5. Redireccionar o actualizar la UI
+
+            // Simular redirección a la página principal (homepage)
+            setTimeout(() => {
+                window.location.href = "/index.html"; // Descomentar para redirección real
+
+                // Opcional: Ejecutar la función que cambia los botones de la página principal
+                // actualizarEstadoUI(); 
+                // Esto solo funciona si esta función está definida en este ámbito.
+
+            }, 1000);
+
+        } else {
+            // Simulación de error de credenciales
+            messageDisplay.textContent = "Error de autenticación. Credenciales incorrectas.";
+        }
+    });
+</script>
+
+</html>
