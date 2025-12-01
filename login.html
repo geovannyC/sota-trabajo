@@ -55,7 +55,6 @@
     const passwordInput = document.querySelector('input[type="password"]');
     let showPassword = false;
     showPasswordCheckbox.onclick = function () {
-        console.log(showPassword);
         if (showPassword) {
             passwordInput.type = 'password';
             showIcon.style.display = 'none';
@@ -75,7 +74,6 @@
 
     // 2. Agregar el event listener al evento 'submit'
     loginForm.addEventListener('submit', (e) => {
-        console.log(emailInput.value, passwordInput.value);
         // 🚨 PASO CRUCIAL 1: Evitar el envío por defecto y la recarga de la página
         e.preventDefault();
 
@@ -101,7 +99,6 @@
                 username: email.split('@')[0],
                 email: email,
                 token: sessionToken,
-                loginTime: new Date().toISOString()
             };
 
             // 4. Almacenar el Token y la Sesión en localStorage

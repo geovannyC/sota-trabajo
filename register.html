@@ -19,14 +19,15 @@
                     <label> NOS </label>
                 </div>
                 <h2>Registro</h2>
-                <form class="items-form">
-
+                <form class="items-form" id="register-form">
                     <input type="text" class="input-component" color="black2" placeholder="Nombres" required
                         minlength="6" maxlength="50" />
                     <input type="text" class="input-component" color="black2" placeholder="Apellidos" required
                         minlength="6" maxlength="50" />
                     <input type="text" class="input-component" color="black2" placeholder="Usuario" required
                         minlength="6" maxlength="50" />
+                    <!-- <input type="email" class="input-component" color="black2" placeholder="Email address" required
+                        minlength="6" /> -->
                     <div class="password-container">
 
                         <input type="password" class="input-component" id="show-password-1" color="black2"
@@ -50,7 +51,7 @@
                         </button>
 
                     </div>
-                     <small class="error-message" ></small>
+                    <small class="error-message"></small>
                     <a href="login.html"><input type="submit" value="Registrarse" color="white"></a>
                 </form>
                 <small>¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></small>
@@ -67,7 +68,6 @@
         let showPassword = false;
         const passwordInput = document.getElementById(`show-password-${button.id}`);
         button.onclick = () => {
-            console.log(showPassword);
             if (showPassword) {
                 passwordInput.type = 'password';
                 button.querySelector('.show').style.display = 'none';
@@ -83,36 +83,28 @@
 
     const password = document.getElementById('show-password-1');
     const confirmPassword = document.getElementById('show-password-2');
-    const form = document.querySelector('items-form');
+    const formRegister = document.getElementById('register-form');
     const errorMsg = document.querySelector('.error-message');
 
     function validarCoincidencia() {
         if (password.value !== confirmPassword.value) {
-            // Establecer un error personalizado y marcar como inválido
             confirmPassword.setCustomValidity("Las contraseñas no coinciden.");
             errorMsg.textContent = "Error: Las contraseñas no coinciden.";
         } else {
-            // Borrar el mensaje de error y marcar como válido
             confirmPassword.setCustomValidity('');
             errorMsg.textContent = "";
         }
     }
 
-    // Escuchar el evento 'input' en el campo de confirmación (mejor experiencia de usuario)
     confirmPassword.addEventListener('input', validarCoincidencia);
 
-    // Escuchar el envío del formulario para una validación final
-    form.addEventListener('submit', (e) => {
-        validarCoincidencia(); // Vuelve a validar antes de enviar
-
-        // Si el formulario no es válido (por coincidencia o patrón), prevenir el envío
-        if (!form.checkValidity()) {
-            e.preventDefault();
-            // Si hay un error, el navegador mostrará el mensaje de error del input.
+    formRegister.addEventListener('submit', (e) => {
+        e.preventDefault();
+        validarCoincidencia(); 
+        if (formRegister.checkValidity()) {
+            window.location.href = "login.html";
         } else {
-            // Aquí puedes enviar el formulario con fetch() o AJAX
-            console.log("Formulario válido. Enviando datos...");
-            // e.preventDefault(); // Descomentar para evitar el envío real para pruebas
+            return false;
         }
     });
 </script>

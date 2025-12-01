@@ -213,12 +213,11 @@ li:focus-within::before {
   animation: 600ms linear 0.1s lineardown;
 }
 @keyframes faderight {
-  0% {
+  from {
     transform: translateX(10%);
     opacity: 0;
   }
-
-  100% {
+  to {
     transform: translateX(0%);
     opacity: 1;
   }

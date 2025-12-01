@@ -514,7 +514,7 @@
     const guestModule = document.querySelector('.guest-module');
     const welcome = document.querySelector('.welcome');
     const accordionButton = document.querySelectorAll(".btn-question");
-    const CAROUSEL_ID = 'poster-carousel';
+    const track = document.getElementById('poster-carousel');
     const DURATION = 25;
     const dataTech = [
       {
@@ -543,10 +543,9 @@
     const mobile = window.innerWidth <= 900
     let index = mobile ? 0 : 1;
     mobile && slides.shift();
-    slider.style.height !== 0 && !mobile ? slider.style.height = customHeight.offsetHeight + "px" : mobile && (slider.style.height = (customHeight.offsetHeight + slides[0].offsetHeight + 20) + "px")
+    slider.style.height !== 0 && !mobile ? slider.style.height = customHeight.offsetHeight + "px" : mobile && (slider.style.height = (customHeight.offsetHeight + slides[1].offsetHeight + 20) + "px")
     function updateActive() {
       slides.forEach((item, i) => {
-        // console.log(item, i);
         if (i === index) {
           item.classList.add("active");
         } else {
@@ -555,7 +554,6 @@
       });
     }
     function setupInfiniteCarousel() {
-      const track = document.querySelector(`#${CAROUSEL_ID}`);
       if (!track) return;
 
       // 1. Obtener todos los hijos (posters)
@@ -573,7 +571,7 @@
         // offsetWidth incluye el padding y el borde.
         // Aquí asumimos un margen de 10px a cada lado (20px total)
         // Debes ajustar el '20' si tus márgenes son diferentes en CSS.
-        displacement += poster.offsetWidth + 10;
+        displacement += poster.offsetWidth;
       });
 
       // 4. Crear e inyectar los Keyframes
@@ -597,8 +595,8 @@
       track.style.width = `${displacement * 2}px`;
       track.style.display = 'flex'; // Asegura que los elementos se alineen horizontalmente
     }
-    function updateTextContent(currentIndex) {
-      const data = dataTech[currentIndex - 1];
+    function updateTextContent() {
+      const data = dataTech[index - (mobile? 0 : 1)];
       const container = document.querySelector('.tech-resume');
       if (data) {
         container.classList.add("tech-resume-gonna-change");
@@ -615,9 +613,8 @@
       const questionItem = document.getElementById(`desc-${button.id}`);
       const fixedHeight = questionItem.offsetHeight
       questionItem.style.height = "0px";
-      button.onclick = (e) => {
+      button.onclick = () => {
         const questionImg = button.querySelector('.question-img');
-
         if (initialState) {
           questionItem.style.height = "0px";
           questionImg.style.transform = "rotate(-180deg)";
@@ -636,26 +633,25 @@
       index = Math.min(index + 1, slides.length - 1);
       updateActive();
       btnPrev.classList.add('btn-tech-active')
-      updateTextContent(index);
+      updateTextContent();
       slides[index].scrollIntoView({
         behavior: "smooth",
         block: "nearest",
         inline: "end"
       });
     };
-    const slideWidth = slides[0].clientWidth;
     document.querySelector(".btnPrev").onclick = () => {
-      if (index < (mobile ? 1 : 2)) return;
+      if (index <= (mobile ? 0 : 1)) return;
       if (index <= (mobile ? 1 : 2)) btnPrev.classList.remove('btn-tech-active');
       // btnPrev.classList.add('btn-tech-active');
       btnNext.classList.add('btn-tech-active');
       index = Math.max(index - 1, 0);
       updateActive()
-      updateTextContent(index);
+      updateTextContent();
       slides[index - 1].scrollIntoView({
         behavior: "smooth",
         block: "nearest",
-        inline: mobile ? "end" : "start"
+        inline: mobile ? "end" : "nearest"
       });
 
 
