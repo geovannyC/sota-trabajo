@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 10rem;
-
+  margin-top: 7rem;
 }
 
 .container-text h6 {
@@ -46,7 +46,6 @@
   padding: 2.5rem 1.5rem;
   align-items: end;
   width: 100%;
-  margin-top: 12rem;
 }
 
 .container-portrait {
